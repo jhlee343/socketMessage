@@ -1,5 +1,4 @@
-
-/*package shootingstar.socketmessage.Service;
+package shootingstar.socketmessage.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
@@ -13,13 +12,15 @@ import shootingstar.socketmessage.DTO.ChatRoom;
 import java.io.IOException;
 import java.util.*;
 
+
+//채팅 관련 앤티티 작성해서 넘겨주기
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class ChatService {
 
     private final ObjectMapper objectMapper;
-    private Map<String, ChatRoom> chatRooms;
+    private Map<Long, ChatRoom> chatRooms;
 
     @PostConstruct
     private void init() {
@@ -30,12 +31,12 @@ public class ChatService {
         return new ArrayList<>(chatRooms.values());
     }
 
-    public ChatRoom findRoomById(String roomId) {
+    public ChatRoom findRoomById(Long roomId) {
         return chatRooms.get(roomId);
     }
 
     public ChatRoom createRoom(String name) {
-        String randomId = UUID.randomUUID().toString();
+        Long randomId = ((long)(Math.random()*100)+1);
         ChatRoom chatRoom = ChatRoom.builder()
                 .roomId(randomId)
                 .name(name)
@@ -51,4 +52,4 @@ public class ChatService {
             log.error(e.getMessage(), e);
         }
     }
-}*/
+}

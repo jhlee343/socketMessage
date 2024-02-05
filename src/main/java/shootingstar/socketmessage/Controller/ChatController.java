@@ -1,20 +1,26 @@
 package shootingstar.socketmessage.Controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.stereotype.Controller;
-import shootingstar.socketmessage.DTO.ChatMessage;
+import org.springframework.web.bind.annotation.*;
+import shootingstar.socketmessage.DTO.ChatRoom;
+import shootingstar.socketmessage.Service.ChatService;
+
+import java.util.List;
+
 @RequiredArgsConstructor
-@Controller
+@RestController
+@RequestMapping("/api/chat")
 public class ChatController {
 
-    private final SimpMessageSendingOperations messagingTemplate;
+    private final ChatService chatService;
 
-    @MessageMapping("/chat/message")
-    public void message(ChatMessage message) {
-        if (ChatMessage.MessageType.ENTER.equals(message.getType()))
-            message.setMessage(message.getSender() + "님이 입장하셨습니다.");
-        messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+    @PostMapping
+    public ChatRoom createRoom(@RequestParam String name) {
+        return chatService.createRoom(name);
+    }
+
+    @GetMapping
+    public List<ChatRoom> findAllRoom() {
+        return chatService.findAllRoom();
     }
 }

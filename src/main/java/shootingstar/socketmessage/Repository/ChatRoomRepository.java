@@ -1,4 +1,4 @@
-package shootingstar.socketmessage.Repository;
+/*package shootingstar.socketmessage.Repository;
 
 import jakarta.annotation.PostConstruct;
 import shootingstar.socketmessage.DTO.ChatRoom;
@@ -32,4 +32,4 @@ public class ChatRoomRepository {
         chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
         return chatRoom;
     }
-}
+}*/
