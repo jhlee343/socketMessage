@@ -50,6 +50,7 @@ public class ChatService {
     public <T> void sendMessage(WebSocketSession session, T message) {
         try {
             session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
+            //메시지 database에 저장하기 json파일 형태로?
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }

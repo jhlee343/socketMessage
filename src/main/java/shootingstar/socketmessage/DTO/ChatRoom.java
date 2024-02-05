@@ -13,7 +13,9 @@ import java.util.Set;
 public class ChatRoom {
     private Long roomId;
     private Long containerId;
-
+    /*컨테이너 참여된 유저 리스트 목록? 필요한가
+    private String[] usersId;
+    */
     private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
@@ -23,10 +25,10 @@ public class ChatRoom {
     }
 
     public void handleActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService) {
-        if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
+    /*    if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
             sessions.add(session);
             chatMessage.setMessage(chatMessage.getSender() + "님이 입장했습니다.");
-        }
+        }*/
         sendMessage(chatMessage, chatService);
     }
 
