@@ -31,15 +31,17 @@ public class ChatService {
         return new ArrayList<>(chatRooms.values());
     }
 
+
     public ChatRoom findRoomByroomId(Long roomId) {
         return chatRooms.get(roomId);
     }
 
-    public ChatRoom createRoom(String name) {
+    public ChatRoom createRoom(Long containerId) {
         Long randomId = ((long)(Math.random()*100)+1);
         ChatRoom chatRoom = ChatRoom.builder()
                 .roomId(randomId)
-                .name(name)
+//                .name(name)
+                .containerId(containerId)
                 .build();
         chatRooms.put(randomId, chatRoom);
         return chatRoom;
