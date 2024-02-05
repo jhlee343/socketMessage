@@ -31,7 +31,7 @@ public class ChatService {
         return new ArrayList<>(chatRooms.values());
     }
 
-    public ChatRoom findRoomById(Long roomId) {
+    public ChatRoom findRoomByroomId(Long roomId) {
         return chatRooms.get(roomId);
     }
 

@@ -13,12 +13,15 @@ import java.util.Set;
 public class ChatRoom {
     private Long roomId;
     private String name;
+    private String [] usersId;
+
     private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
-    public ChatRoom(Long roomId, String name) {
+    public ChatRoom(Long roomId, String name, String [] usersId) {
         this.roomId = roomId;
         this.name = name;
+        this.usersId = usersId;
     }
 
     public void handleActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService) {
