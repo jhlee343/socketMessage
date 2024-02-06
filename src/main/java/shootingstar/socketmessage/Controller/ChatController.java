@@ -1,29 +1,44 @@
 package shootingstar.socketmessage.Controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import shootingstar.socketmessage.DTO.ChatMessage;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import shootingstar.socketmessage.DTO.ChatRoom;
-import shootingstar.socketmessage.Handler.WebSockChatHandler;
 import shootingstar.socketmessage.Service.ChatService;
 
 import java.util.List;
 
+@Controller
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("/api/chat")
 public class ChatController {
-
     private final ChatService chatService;
-//    private final WebSockChatHandler webSockChatHandler;
-    @PostMapping
-    public ChatRoom createRoom(@RequestParam Long containerId) {
-        //컨테이너 아이디 연결해오기
-        return chatService.createRoom(containerId);
+
+
+    @RequestMapping("/chatList")
+    public String chatList(Model model){
+        List<ChatRoom> roomList = chatService.findAllRoom();
+        model.addAttribute("roomList",roomList);
+        return "chatList";
     }
 
-    @GetMapping
-    public List<ChatRoom> findAllRoom() {
-        return chatService.findAllRoom();
+
+    @PostMapping("chat/createRoom")
+    public String createRoom(Model model, @RequestParam String name, String username) {
+        ChatRoom room = chatService.createRoom(name);
+        model.addAttribute("room",room);
+        model.addAttribute("username",username);
+        return "chatRoom";
+    }
+
+    @GetMapping("/chat/chatRoom")
+    public String chatRoom(Model model, @RequestParam Long roomId){
+        ChatRoom room = chatService.findRoomById(roomId);
+        model.addAttribute("room",room);
+        //현재 방에 들어오기위해서 필요한데...... 접속자 수 등등은 실시간으로 보여줘야 돼서 여기서는 못함
+        return "chatRoom";
     }
 }
