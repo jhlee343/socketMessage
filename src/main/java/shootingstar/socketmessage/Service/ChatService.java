@@ -38,8 +38,10 @@ public class ChatService {
 
     public ChatRoom createRoom(Long containerId) {
         Long randomId = ((long)(Math.random()*100)+1);
+//        String[] usersId = findusersIdBycontainerId(Long containerId);
         ChatRoom chatRoom = ChatRoom.builder()
                 .roomId(randomId)
+//                .usersId(usersId)
 //                .name(name)
                 .containerId(containerId)
                 .build();
