@@ -15,7 +15,7 @@ import java.util.List;
 public class ChatController {
 
     private final ChatService chatService;
-    private final WebSockChatHandler webSockChatHandler;
+//    private final WebSockChatHandler webSockChatHandler;
     @PostMapping
     public ChatRoom createRoom(@RequestParam Long containerId) {
         //컨테이너 아이디 연결해오기

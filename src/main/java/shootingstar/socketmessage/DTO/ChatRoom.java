@@ -10,18 +10,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Getter
+
 public class ChatRoom {
-    private Long roomId;
-    private Long containerId;
-    /*컨테이너 참여된 유저 리스트 목록? 필요한가
-    private String[] usersId;
-    */
+    private Long roomId; //채팅방 아이디
+    private Long containerId; // 컨테이너 아이디
+    private String[] usersId; // 참여 사용자 리스트
+
     private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
-    public ChatRoom(Long roomId, Long containerId) {
+    public ChatRoom(Long roomId, Long containerId, String [] usersId) {
         this.roomId = roomId;
         this.containerId = containerId;
+        this.usersId = usersId;
     }
 
     public void handleActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService) {
