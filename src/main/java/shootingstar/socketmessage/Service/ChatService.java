@@ -5,7 +5,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import shootingstar.socketmessage.DTO.ChatRoom;
+import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
 
 import java.util.*;
 /*
@@ -29,24 +29,26 @@ import java.util.*;
 public class ChatService {
 
     private final ObjectMapper objectMapper;
-    private Map<Long, ChatRoom> chatRooms;
+    private Map<Long, ChatRoomDTO> chatRooms;
 
     @PostConstruct
     private void init() {
         chatRooms = new LinkedHashMap<>();
     }
 
-    public List<ChatRoom> findAllRoom() {
+    public List<ChatRoomDTO> findAllRoom() {
         return new ArrayList<>(chatRooms.values());
+        //db로 수정 구현
     }
 
-    public ChatRoom findRoomById(Long roomId) {
+    public ChatRoomDTO findRoomById(Long roomId) {
+        //db로 구정 구현
         return chatRooms.get(roomId);
     }
 
-    public ChatRoom createRoom(String name) {
+    public ChatRoomDTO createRoom(String name) {
         Long randomId = (long)(Math.random()*100)+1;
-        ChatRoom chatRoom = ChatRoom.builder()
+        ChatRoomDTO chatRoom = ChatRoomDTO.builder()
                 .roomId(randomId)
                 .name(name)
                 .build();

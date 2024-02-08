@@ -1,11 +1,11 @@
-package shootingstar.socketmessage.DTO;
+package shootingstar.socketmessage.Service.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ChatMessage {
+public class ChatMessageDTO {
     public enum MessageType {
         ENTER, TALK
         //,QUIT

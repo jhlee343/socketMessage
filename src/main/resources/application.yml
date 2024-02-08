@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: mysql://localhost:3306/chat?serverTimezone=Asia/Seoul
+    user : root
+    password: Abcd123@
