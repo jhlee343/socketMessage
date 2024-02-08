@@ -1,4 +1,4 @@
-/*
+
 package shootingstar.socketmessage.Entity;
 
 
@@ -37,4 +37,3 @@ public class ChatMessage extends BaseTime {
         this.chatRoom = chatRoom;
     }
 }
-*/
