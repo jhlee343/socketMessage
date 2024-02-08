@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -42,7 +43,7 @@ public class WebSockChatHandler extends TextWebSocketHandler {
             //한번에 입장할지 container owner가 만드는 걸지는 생각해봐얗ㅁ
             sendToEachSocket(sessions,new TextMessage(objectMapper.writeValueAsString(chatMessage)) );
         }else {
-            sendToEachSocket(sessions,message );
+            sendToEachSocket(sessions,message);
         }
     }
     private  void sendToEachSocket(Set<WebSocketSession> sessions, TextMessage message){
@@ -58,12 +59,10 @@ public class WebSockChatHandler extends TextWebSocketHandler {
 
 
     //세션 끊을 때
-//    @Override
-//    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-//
-//
-//    }
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 
-
+//        sessions.add(session); 지워
+    }
 
 }
