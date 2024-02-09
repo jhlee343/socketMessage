@@ -13,6 +13,8 @@ import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
 import shootingstar.socketmessage.Service.ChatService;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 @Slf4j
@@ -21,11 +23,10 @@ import java.util.Set;
 public class WebSockChatHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
     private final ChatService chatService;
-
-
+    private Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<WebSocketSession>());
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-
+        System.out.println(session.getId());
     }
 
 
@@ -34,7 +35,8 @@ public class WebSockChatHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
         ChatMessageDTO chatMessage = objectMapper.readValue(payload, ChatMessageDTO.class);
         ChatRoomDTO room = chatService.findRoomById(Long.valueOf(chatMessage.getRoomId()));
-        Set<WebSocketSession> sessions=room.getSessions();
+        //Set<WebSocketSession>
+        sessions=room.getSessions();
 
         if (chatMessage.getType().equals(ChatMessageDTO.MessageType.ENTER)) {
             sessions.add(session);
@@ -61,7 +63,7 @@ public class WebSockChatHandler extends TextWebSocketHandler {
     //세션 끊을 때
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-
+        sessions.remove(session);
 //        sessions.add(session); 지워
     }
 
