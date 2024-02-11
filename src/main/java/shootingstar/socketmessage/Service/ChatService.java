@@ -59,6 +59,7 @@ public class ChatService {
                 .name(name)
                 .build();
         chatRoomsDTO.put(randomId, chatRoomDTO);
+        saveRoom(chatRoomDTO);
         return chatRoomDTO;
     }
     @Transactional
