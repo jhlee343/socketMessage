@@ -8,9 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shootingstar.socketmessage.Entity.ChatMessage;
-import shootingstar.socketmessage.Repository.ChatMessageRepository;
-import shootingstar.socketmessage.Service.DTO.ChatMessageDTO;
+import shootingstar.socketmessage.Entity.ChatRoom;
+import shootingstar.socketmessage.Repository.ChatRoomRepository;
 import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
 
 import java.util.*;
@@ -36,6 +35,7 @@ public class ChatService {
 
     private final ObjectMapper objectMapper;
     private Map<Long, ChatRoomDTO> chatRoomsDTO;
+    private ChatRoomRepository chatRoomRepository;
 
     @PostConstruct
     private void init() {
@@ -61,8 +61,14 @@ public class ChatService {
         chatRoomsDTO.put(randomId, chatRoomDTO);
         return chatRoomDTO;
     }
-    public ChatRoomDTO saveRoom(Long roomId){
-
+    @Transactional
+    public ChatRoom saveRoom(ChatRoomDTO chatRoomDTO){
+        ChatRoom chatRoom = new ChatRoom(
+                chatRoomDTO.getName(),
+                chatRoomDTO.getRoomId(),
+                chatRoomDTO.getContainerId());
+        chatRoomRepository.save(chatRoom);
+        return chatRoom;
     }
 
     public String convertJSON(Object object) throws JsonProcessingException {

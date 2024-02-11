@@ -11,12 +11,12 @@ import java.util.Set;
 public class ChatRoomDTO {
     private Long roomId; //채팅방 아이디
     private String name; //채팅방 이름
-    //private Long containerId //컨테이너 아이디
+    private String  containerId; //컨테이너 아이디
     private Set<WebSocketSession> sessions = new HashSet<>();
     @Builder
-    public ChatRoomDTO(Long roomId, String name) {
+    public ChatRoomDTO(Long roomId, String name, String containerId) {
         this.roomId = roomId;
         this.name = name;
-        //this.containerId = containerId;
+        this.containerId = containerId;
     }
 }

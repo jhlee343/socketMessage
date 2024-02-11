@@ -44,24 +44,25 @@ public class WebSockChatHandler extends TextWebSocketHandler {
         ChatMessageDTO chatMessageDTO = objectMapper.readValue(payload, ChatMessageDTO.class);
         ChatRoomDTO room = chatService.findRoomById(Long.valueOf(chatMessageDTO.getRoomId()));
         //Set<WebSocketSession>
-        sessions=room.getSessions();
+        sessions = room.getSessions();
 
         if (chatMessageDTO.getType().equals(ChatMessageDTO.MessageType.ENTER)) {
             sessions.add(session);
             chatMessageDTO.setMessage(chatMessageDTO.getSender() + "님이 입장했습니다.");
 
-            sendToEachSocket(sessions,new TextMessage(objectMapper.writeValueAsString(chatMessageDTO)) );
-        }else {
-            sendToEachSocket(sessions,message);
+            sendToEachSocket(sessions, new TextMessage(objectMapper.writeValueAsString(chatMessageDTO)));
+        } else {
+            sendToEachSocket(sessions, message);
         }
+    }
         //about save message
-//        String saved = objectMapper.writeValueAsString(chatMessageDTO);
-//        System.out.println(saved);
-//        save(chatMessageDTO);
+/*        String saved = objectMapper.writeValueAsString(chatMessageDTO);
+        System.out.println(saved);
+        saveMessage(chatMessageDTO);
 
     }
     @Transactional
-    public ChatMessage save(ChatMessageDTO chatMessageDTO){
+    public ChatMessage saveMessage(ChatMessageDTO chatMessageDTO){
 //        String save = objectMapper.writeValueAsString(chatMessageDTO);
         ChatMessage chatMessage = new ChatMessage(
                 chatMessageDTO.getMessage(),
@@ -72,6 +73,8 @@ public class WebSockChatHandler extends TextWebSocketHandler {
         chatMessageRepository.save(chatMessage);
         return chatMessage;
     }
+
+ */
     private  void sendToEachSocket(Set<WebSocketSession> sessions, TextMessage message){
         sessions.parallelStream().forEach( roomSession -> {
             try {
