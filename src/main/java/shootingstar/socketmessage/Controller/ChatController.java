@@ -38,6 +38,7 @@ public class ChatController {
     public String chatRoom(Model model, @RequestParam Long roomId){
         ChatRoomDTO room = chatService.findRoomById(roomId);
         model.addAttribute("room",room);
+
         return "chatRoom";
     }
 

@@ -35,6 +35,8 @@ public class QChatMessage extends EntityPathBase<ChatMessage> {
 
     public final StringPath sender = createString("sender");
 
+    public final DateTimePath<java.sql.Timestamp> timestamp = createDateTime("timestamp", java.sql.Timestamp.class);
+
     public final EnumPath<ChatMessage.MessageType> type = createEnum("type", ChatMessage.MessageType.class);
 
     //inherited

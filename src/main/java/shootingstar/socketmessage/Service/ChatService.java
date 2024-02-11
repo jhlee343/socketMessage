@@ -1,10 +1,16 @@
 package shootingstar.socketmessage.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import shootingstar.socketmessage.Entity.ChatMessage;
+import shootingstar.socketmessage.Repository.ChatMessageRepository;
+import shootingstar.socketmessage.Service.DTO.ChatMessageDTO;
 import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
 
 import java.util.*;
@@ -29,30 +35,38 @@ import java.util.*;
 public class ChatService {
 
     private final ObjectMapper objectMapper;
-    private Map<Long, ChatRoomDTO> chatRooms;
+    private Map<Long, ChatRoomDTO> chatRoomsDTO;
 
     @PostConstruct
     private void init() {
-        chatRooms = new LinkedHashMap<>();
+        chatRoomsDTO = new LinkedHashMap<>();
     }
 
     public List<ChatRoomDTO> findAllRoom() {
-        return new ArrayList<>(chatRooms.values());
+        return new ArrayList<>(chatRoomsDTO.values());
         //db로 수정 구현
     }
 
     public ChatRoomDTO findRoomById(Long roomId) {
         //db로 구정 구현
-        return chatRooms.get(roomId);
+        return chatRoomsDTO.get(roomId);
     }
 
     public ChatRoomDTO createRoom(String name) {
         Long randomId = (long)(Math.random()*100)+1;
-        ChatRoomDTO chatRoom = ChatRoomDTO.builder()
+        ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder()
                 .roomId(randomId)
                 .name(name)
                 .build();
-        chatRooms.put(randomId, chatRoom);
-        return chatRoom;
+        chatRoomsDTO.put(randomId, chatRoomDTO);
+        return chatRoomDTO;
+    }
+    public ChatRoomDTO saveRoom(Long roomId){
+
+    }
+
+    public String convertJSON(Object object) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        return objectMapper.writeValueAsString(object);
     }
 }
