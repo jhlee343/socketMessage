@@ -15,12 +15,15 @@ import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
 import java.util.*;
 /*
 내가한것
-    채팅방 구현 (1:n)
-    채팅방 목록 구현
-현재 구현문제
+    채팅방 구현 (1:n) - 해결
+    채팅방 목록 구현 - 해결
     현재 채팅방 리스트가 제대로 안나오고 있음 해당 부분 파악해야함 - 해결
-    한번에 입장할지 container owner가 만드는 걸지는 생각해봐야함
-    채팅방 나가면 그대로 종료?
+        채팅방 나가면 그대로 종료? - 해결
+현재 구현문제
+    db에 메세지 저장 (?)
+    db에 채팅방 저장 (?)
+
+    두 디비 엮어서 조회
 
 추후 연결해야할 것
     containerId 연결
@@ -35,7 +38,7 @@ public class ChatService {
 
     private final ObjectMapper objectMapper;
     private Map<Long, ChatRoomDTO> chatRoomsDTO;
-    private ChatRoomRepository chatRoomRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     @PostConstruct
     private void init() {
@@ -59,11 +62,12 @@ public class ChatService {
                 .name(name)
                 .build();
         chatRoomsDTO.put(randomId, chatRoomDTO);
-        saveRoom(chatRoomDTO);
+//        saveRoom(chatRoomDTO);
         return chatRoomDTO;
     }
     @Transactional
-    public ChatRoom saveRoom(ChatRoomDTO chatRoomDTO){
+    public ChatRoom saveRoom(ChatRoomDTO chatRoomDTO) throws JsonProcessingException {
+
         ChatRoom chatRoom = new ChatRoom(
                 chatRoomDTO.getName(),
                 chatRoomDTO.getRoomId(),

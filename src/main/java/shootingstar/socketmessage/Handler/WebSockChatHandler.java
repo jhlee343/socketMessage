@@ -19,9 +19,8 @@ import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
 import shootingstar.socketmessage.Service.ChatService;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,6 +31,10 @@ public class WebSockChatHandler extends TextWebSocketHandler {
     @Autowired
     private final ChatMessageRepository chatMessageRepository;
     private Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<WebSocketSession>());
+
+//    private Map<String, ArrayList<WebSocketSession>> RoomList = new ConcurrentHashMap<String, ArrayList<WebSocketSession>>();
+//    private Map<WebSocketSession, String> sessionList = new ConcurrentHashMap<WebSocketSession, String>();
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         System.out.println(session.getId());
