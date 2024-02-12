@@ -36,9 +36,10 @@ public class ChatController {
         return "chatRoom";
     }
 
+    //chatroom 저장
     @PostMapping("chat/saveRoom")
     public ChatRoom saveRoom(@Validated @ModelAttribute ChatRoomDTO chatRoomDTO) throws JsonProcessingException {
-        System.out.println("saveRoom 화면 이동");
+        System.out.println("saveRoom 실행");
         //chatService.saveRoom(chatRoomDTO);
         return chatService.saveRoom(chatRoomDTO);
     }

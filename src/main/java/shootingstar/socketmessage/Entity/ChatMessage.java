@@ -3,56 +3,45 @@ package shootingstar.socketmessage.Entity;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 import shootingstar.socketmessage.Base.BaseTime;
-import shootingstar.socketmessage.Service.DTO.ChatMessageDTO;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-@Entity
 @Getter
 @NoArgsConstructor
-public class ChatMessage extends BaseTime {
+@Entity
+public class ChatMessage{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long messageId;
+
     private String roomId; // 채팅방번호
-    @Column
     private String sender; // 메시지 보낸사람
-    @Column
     private String message; // 메시지
-    @Column
+
+    @Enumerated(EnumType.STRING)
     private MessageType type; // 메시지 타입
-    @Column
-    private Timestamp timestamp;
+    private LocalDateTime createTime; //생성 시간
 
-    public ChatMessage(String message, String message1, String sender, ChatMessageDTO.MessageType type) {
-        this.roomId = roomId;
-        this.sender = sender;
-        this.message = message;
-//        this.chatRoomDTO = chatRoomDTO;
-//        this.type = type;
-    }
-
-    public enum MessageType {
-        ENTER, TALK
-        //,QUIT
-    }
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ChatRoom chatRoom;
 
-    public ChatMessage(String roomId, String sender, String message/*,ChatRoomDTO chatRoomDTO*/, MessageType type){
+    @Builder
+    public ChatMessage(MessageType type ,String roomId, String sender, String message) {
+        this.type = type;
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;
+        this.createTime = LocalDateTime.now();
 //        this.chatRoomDTO = chatRoomDTO;
-        this.type = type;
+
     }
 
-    public ChatMessage toEntity(){
-        return new ChatMessage(roomId, sender, message, type);
-    }
 
 }

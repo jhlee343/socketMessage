@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Entity
-public class ChatRoom extends BaseTime {
+public class ChatRoom {
     @Id
     @GeneratedValue
     private Long roomId; //채팅방 아이디
@@ -32,4 +32,9 @@ public class ChatRoom extends BaseTime {
         this.roomId = roomId;
         this.ContainerId = ContainerId;
     }
-}
+
+    public void addChatMessage(ChatMessage message) {
+        this.chatMessageList.add(message);
+    }
+    }
+

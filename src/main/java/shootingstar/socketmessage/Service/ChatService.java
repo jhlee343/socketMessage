@@ -8,8 +8,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shootingstar.socketmessage.Entity.ChatMessage;
 import shootingstar.socketmessage.Entity.ChatRoom;
+import shootingstar.socketmessage.Entity.MessageType;
+import shootingstar.socketmessage.Repository.ChatMessageRepository;
 import shootingstar.socketmessage.Repository.ChatRoomRepository;
+import shootingstar.socketmessage.Service.DTO.ChatMessageDTO;
 import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
 
 import java.util.*;
@@ -18,18 +22,19 @@ import java.util.*;
     채팅방 구현 (1:n) - 해결
     채팅방 목록 구현 - 해결
     현재 채팅방 리스트가 제대로 안나오고 있음 해당 부분 파악해야함 - 해결
-        채팅방 나가면 그대로 종료? - 해결
-현재 구현문제
+    채팅방 나가면 그대로 종료? - 해결
+    db에 채팅방 저장 -해결
+
+해야할일
+    채팅 리스트 없애고 방 하나만 만들기
     db에 메세지 저장 (?)
-    db에 채팅방 저장 (?)
 
     두 디비 엮어서 조회
+        findRoomByRoomId를 통해서 해당 방에 맞는 정보 불러와줌
 
 추후 연결해야할 것
     containerId 연결
     roomId 연결( 현재 랜덤 값으로 넣어주고 있음)
-    containerId or roomId를 공유하는 사용자 쿼리를 써서 리스트로 받아와야하나
-
 */
 @Slf4j
 @RequiredArgsConstructor
@@ -39,6 +44,8 @@ public class ChatService {
     private final ObjectMapper objectMapper;
     private Map<Long, ChatRoomDTO> chatRoomsDTO;
     private final ChatRoomRepository chatRoomRepository;
+    private final ChatMessageRepository chatMessageRepository;
+    private Map<String, ChatMessageDTO> chatMessageDTO;
 
     @PostConstruct
     private void init() {
@@ -76,6 +83,19 @@ public class ChatService {
         return chatRoom;
     }
 
+    @Transactional
+    public ChatMessage saveMessage(ChatMessageDTO chatMessageDTO) throws JsonProcessingException{
+        System.out.println("saveMessage 실행");
+        ChatMessage chatMessage = new ChatMessage(
+                //chatMessageDTO.getType(),
+                MessageType.TALK,
+                chatMessageDTO.getRoomId(),
+                chatMessageDTO.getSender(),
+                chatMessageDTO.getMessage());
+
+        chatMessageRepository.save(chatMessage);
+        return chatMessage;
+    }
     public String convertJSON(Object object) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         return objectMapper.writeValueAsString(object);

@@ -12,7 +12,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-import shootingstar.socketmessage.Entity.ChatMessage;
+import shootingstar.socketmessage.Entity.*;
 import shootingstar.socketmessage.Repository.ChatMessageRepository;
 import shootingstar.socketmessage.Service.DTO.ChatMessageDTO;
 import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
@@ -56,28 +56,12 @@ public class WebSockChatHandler extends TextWebSocketHandler {
             sendToEachSocket(sessions, new TextMessage(objectMapper.writeValueAsString(chatMessageDTO)));
         } else {
             sendToEachSocket(sessions, message);
+            chatService.saveMessage(chatMessageDTO);
         }
-    }
-        //about save message
-/*        String saved = objectMapper.writeValueAsString(chatMessageDTO);
-        System.out.println(saved);
-        saveMessage(chatMessageDTO);
 
     }
-    @Transactional
-    public ChatMessage saveMessage(ChatMessageDTO chatMessageDTO){
-//        String save = objectMapper.writeValueAsString(chatMessageDTO);
-        ChatMessage chatMessage = new ChatMessage(
-                chatMessageDTO.getMessage(),
-                chatMessageDTO.getMessage(),
-                chatMessageDTO.getSender(),
-                chatMessageDTO.getType());
 
-        chatMessageRepository.save(chatMessage);
-        return chatMessage;
-    }
 
- */
     private  void sendToEachSocket(Set<WebSocketSession> sessions, TextMessage message){
         sessions.parallelStream().forEach( roomSession -> {
             try {

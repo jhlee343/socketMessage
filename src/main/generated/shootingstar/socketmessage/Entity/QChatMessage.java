@@ -22,25 +22,19 @@ public class QChatMessage extends EntityPathBase<ChatMessage> {
 
     public static final QChatMessage chatMessage = new QChatMessage("chatMessage");
 
-    public final shootingstar.socketmessage.Base.QBaseTime _super = new shootingstar.socketmessage.Base.QBaseTime(this);
-
     public final QChatRoom chatRoom;
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+    public final DateTimePath<java.time.LocalDateTime> createTime = createDateTime("createTime", java.time.LocalDateTime.class);
 
     public final StringPath message = createString("message");
+
+    public final NumberPath<Long> messageId = createNumber("messageId", Long.class);
 
     public final StringPath roomId = createString("roomId");
 
     public final StringPath sender = createString("sender");
 
-    public final DateTimePath<java.sql.Timestamp> timestamp = createDateTime("timestamp", java.sql.Timestamp.class);
-
-    public final EnumPath<ChatMessage.MessageType> type = createEnum("type", ChatMessage.MessageType.class);
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updatedDate = _super.updatedDate;
+    public final EnumPath<MessageType> type = createEnum("type", MessageType.class);
 
     public QChatMessage(String variable) {
         this(ChatMessage.class, forVariable(variable), INITS);

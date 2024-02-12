@@ -20,21 +20,13 @@ public class QChatRoom extends EntityPathBase<ChatRoom> {
 
     public static final QChatRoom chatRoom = new QChatRoom("chatRoom");
 
-    public final shootingstar.socketmessage.Base.QBaseTime _super = new shootingstar.socketmessage.Base.QBaseTime(this);
-
     public final ListPath<ChatMessage, QChatMessage> chatMessageList = this.<ChatMessage, QChatMessage>createList("chatMessageList", ChatMessage.class, QChatMessage.class, PathInits.DIRECT2);
 
     public final StringPath ContainerId = createString("ContainerId");
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
-
     public final StringPath name = createString("name");
 
     public final NumberPath<Long> roomId = createNumber("roomId", Long.class);
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updatedDate = _super.updatedDate;
 
     public QChatRoom(String variable) {
         super(ChatRoom.class, forVariable(variable));
