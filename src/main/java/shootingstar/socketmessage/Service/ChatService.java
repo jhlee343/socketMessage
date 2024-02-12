@@ -26,11 +26,13 @@ import java.util.*;
     db에 채팅방 저장 -해결
 
 해야할일
+    db에 메세지 저장 - 메세지값이  저장안됨
+                   - ChatMessage와 ChatRoom의 roomId가 다름
     채팅 리스트 없애고 방 하나만 만들기
-    db에 메세지 저장 (?)
+    컨테이너 아이디에 맞는 채팅방 불러오기
+    채팅방 아이디에 맞는 채팅 내역 불러오기 findMessageByRoomId()
+       - 두 디비 엮어서 조회
 
-    두 디비 엮어서 조회
-        findRoomByRoomId를 통해서 해당 방에 맞는 정보 불러와줌
 
 추후 연결해야할 것
     containerId 연결
@@ -52,18 +54,24 @@ public class ChatService {
         chatRoomsDTO = new LinkedHashMap<>();
     }
 
-    public List<ChatRoomDTO> findAllRoom() {
-        return new ArrayList<>(chatRoomsDTO.values());
-        //db로 수정 구현
+    /*
+    채팅방 목록 불러오기
+     */
+    public List<ChatRoom> findAllRoom() {
+        return chatRoomRepository.findAll();
     }
+    private final Long randomId = (long)(Math.random()*100)+1;
 
     public ChatRoomDTO findRoomById(Long roomId) {
         //db로 구정 구현
         return chatRoomsDTO.get(roomId);
     }
 
+//    public Page<FindAllChatMessageByRoomIdDTO> getMessagePage(Long roomId, Pageable pageable){
+//        return chatMessageRepository.findAllMessageById(roomId, pageable);
+//    }
+
     public ChatRoomDTO createRoom(String name) {
-        Long randomId = (long)(Math.random()*100)+1;
         ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder()
                 .roomId(randomId)
                 .name(name)
@@ -77,7 +85,7 @@ public class ChatService {
 
         ChatRoom chatRoom = new ChatRoom(
                 chatRoomDTO.getName(),
-                chatRoomDTO.getRoomId(),
+                randomId,
                 chatRoomDTO.getContainerId());
         chatRoomRepository.save(chatRoom);
         return chatRoom;
@@ -85,14 +93,12 @@ public class ChatService {
 
     @Transactional
     public ChatMessage saveMessage(ChatMessageDTO chatMessageDTO) throws JsonProcessingException{
-        System.out.println("saveMessage 실행");
+        System.out.println(chatMessageDTO.getMessage());
         ChatMessage chatMessage = new ChatMessage(
-                //chatMessageDTO.getType(),
+                randomId,
                 MessageType.TALK,
-                chatMessageDTO.getRoomId(),
                 chatMessageDTO.getSender(),
                 chatMessageDTO.getMessage());
-
         chatMessageRepository.save(chatMessage);
         return chatMessage;
     }

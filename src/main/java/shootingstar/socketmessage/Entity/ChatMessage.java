@@ -6,10 +6,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
-import shootingstar.socketmessage.Base.BaseTime;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,25 +18,25 @@ public class ChatMessage{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long messageId;
 
-    private String roomId; // 채팅방번호
     private String sender; // 메시지 보낸사람
     private String message; // 메시지
 
     @Enumerated(EnumType.STRING)
     private MessageType type; // 메시지 타입
     private LocalDateTime createTime; //생성 시간
+    private Long roomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chatRoomId")
     private ChatRoom chatRoom;
 
     @Builder
-    public ChatMessage(MessageType type ,String roomId, String sender, String message) {
-        this.type = type;
+    public ChatMessage(Long roomId, MessageType type, String sender, String message) {
         this.roomId = roomId;
+        this.type = type;
         this.sender = sender;
         this.message = message;
         this.createTime = LocalDateTime.now();
-//        this.chatRoomDTO = chatRoomDTO;
 
     }
 

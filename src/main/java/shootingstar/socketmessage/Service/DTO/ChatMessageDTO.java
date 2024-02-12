@@ -11,8 +11,10 @@ import java.sql.Timestamp;
 @Data
 public class ChatMessageDTO {
 
-    private String roomId; // 채팅방번호
+    private Long roomId; // 채팅방번호
     private String sender; // 메시지 보낸사람
+
+    @NotNull
     private String message; // 메시지
 
     @NotNull
@@ -24,7 +26,7 @@ public class ChatMessageDTO {
     }
 
     private ChatRoomDTO chatRoomDTO;
-    public ChatMessageDTO(MessageType type, String roomId, String sender, String message){
+    public ChatMessageDTO(MessageType type, Long roomId, String sender, String message){
         this.type = type;
         this.roomId = roomId;
         this.sender = sender;

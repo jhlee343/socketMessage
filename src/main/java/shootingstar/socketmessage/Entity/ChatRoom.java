@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 import shootingstar.socketmessage.Base.BaseTime;
 import shootingstar.socketmessage.Entity.ChatMessage;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -24,7 +26,7 @@ public class ChatRoom {
     private String ContainerId;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.REMOVE)
-    private List<ChatMessage> chatMessageList;
+    private List<ChatMessage> chatMessageList = new ArrayList<>();
 
     @Builder
     public ChatRoom(String name, Long roomId, String ContainerId){

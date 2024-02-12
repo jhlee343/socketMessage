@@ -30,7 +30,7 @@ public class QChatMessage extends EntityPathBase<ChatMessage> {
 
     public final NumberPath<Long> messageId = createNumber("messageId", Long.class);
 
-    public final StringPath roomId = createString("roomId");
+    public final NumberPath<Long> roomId = createNumber("roomId", Long.class);
 
     public final StringPath sender = createString("sender");
 
