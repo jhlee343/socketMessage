@@ -24,14 +24,13 @@ import java.util.*;
     현재 채팅방 리스트가 제대로 안나오고 있음 해당 부분 파악해야함 - 해결
     채팅방 나가면 그대로 종료? - 해결
     db에 채팅방 저장 -해결
-
+    db에 메세지 저장 - 메세지값이  저장
+                   - ChatMessage와 ChatRoom의 외래키 연동
 해야할일
-    db에 메세지 저장 - 메세지값이  저장안됨
-                   - ChatMessage와 ChatRoom의 roomId가 다름
     채팅 리스트 없애고 방 하나만 만들기
-    컨테이너 아이디에 맞는 채팅방 불러오기
     채팅방 아이디에 맞는 채팅 내역 불러오기 findMessageByRoomId()
        - 두 디비 엮어서 조회
+    페이징
 
 
 추후 연결해야할 것
@@ -64,41 +63,51 @@ public class ChatService {
 
     public ChatRoomDTO findRoomById(Long roomId) {
         //db로 구정 구현
-        return chatRoomsDTO.get(roomId);
+        if(chatRoomsDTO.containsKey(roomId)){
+            return chatRoomsDTO.get(roomId);
+        }
+        Optional<ChatRoom> chatRoomOptional = chatRoomRepository.findById(roomId);
+        if(chatRoomOptional.isEmpty()){
+            throw new RuntimeException();
+        }
+        ChatRoom chatRoom = chatRoomOptional.get();
+        ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder()
+                .roomId(chatRoom.getRoomId())
+                .name(chatRoom.getName())
+                .containerId(chatRoom.getContainerId())
+                .build();
+        chatRoomsDTO.put(roomId,chatRoomDTO);
+        return chatRoomDTO;
     }
 
 //    public Page<FindAllChatMessageByRoomIdDTO> getMessagePage(Long roomId, Pageable pageable){
 //        return chatMessageRepository.findAllMessageById(roomId, pageable);
 //    }
 
-    public ChatRoomDTO createRoom(String name) {
-        ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder()
-                .roomId(randomId)
-                .name(name)
-                .build();
-        chatRoomsDTO.put(randomId, chatRoomDTO);
-//        saveRoom(chatRoomDTO);
-        return chatRoomDTO;
-    }
     @Transactional
-    public ChatRoom saveRoom(ChatRoomDTO chatRoomDTO) throws JsonProcessingException {
-
-        ChatRoom chatRoom = new ChatRoom(
-                chatRoomDTO.getName(),
-                randomId,
-                chatRoomDTO.getContainerId());
+    public ChatRoom createRoom(String name) {
+        ChatRoom chatRoom = ChatRoom.builder()
+                .name(name)
+                .containerId("d")
+                .build();
         chatRoomRepository.save(chatRoom);
+
         return chatRoom;
     }
 
     @Transactional
-    public ChatMessage saveMessage(ChatMessageDTO chatMessageDTO) throws JsonProcessingException{
-        System.out.println(chatMessageDTO.getMessage());
+    public ChatMessage saveMessage(ChatMessageDTO chatMessageDTO, ChatRoomDTO roomDTO) throws JsonProcessingException{
+        //System.out.println(chatMessageDTO.getMessage());
+        Optional<ChatRoom> optionalChatRoom = chatRoomRepository.findById(roomDTO.getRoomId());
+        if(optionalChatRoom.isEmpty()){
+            throw new RuntimeException();
+        }
+        ChatRoom chatRoom = optionalChatRoom.get();
         ChatMessage chatMessage = new ChatMessage(
-                randomId,
+                chatRoom,
                 MessageType.TALK,
                 chatMessageDTO.getSender(),
-                chatMessageDTO.getMessage());
+                chatMessageDTO.getMsg());
         chatMessageRepository.save(chatMessage);
         return chatMessage;
     }

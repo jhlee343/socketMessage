@@ -12,6 +12,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import shootingstar.socketmessage.Entity.ChatMessage;
+import shootingstar.socketmessage.Entity.ChatRoom;
 import shootingstar.socketmessage.Repository.ChatMessageRepository;
 import shootingstar.socketmessage.Service.DTO.ChatMessageDTO;
 import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
@@ -43,19 +44,20 @@ public class WebSockChatHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
         ChatMessageDTO chatMessageDTO = objectMapper.readValue(payload, ChatMessageDTO.class);
-        ChatRoomDTO room = chatService.findRoomById(Long.valueOf(chatMessageDTO.getRoomId()));
+        ChatRoomDTO room = chatService.findRoomById(chatMessageDTO.getRoomId());
+
         //Set<WebSocketSession>
         sessions = room.getSessions();
 
         if (chatMessageDTO.getType().equals(ChatMessageDTO.MessageType.ENTER)) {
             sessions.add(session);
-            chatMessageDTO.setMessage(chatMessageDTO.getSender() + "님이 입장했습니다.");
-
+            chatMessageDTO.setMsg(chatMessageDTO.getSender() + "님이 입장했습니다.");
             sendToEachSocket(sessions, new TextMessage(objectMapper.writeValueAsString(chatMessageDTO)));
         } else {
             sendToEachSocket(sessions, message);
-            System.out.println(chatMessageDTO.getMessage() +" "+ chatMessageDTO.getRoomId() +" " + room.getRoomId());
-            chatService.saveMessage(chatMessageDTO);
+//            System.out.println(chatMessageDTO.getMessage() +" "+ chatMessageDTO.getRoomId() +" " + room.getRoomId());
+            chatService.saveMessage(chatMessageDTO, room);
+
         }
 
     }

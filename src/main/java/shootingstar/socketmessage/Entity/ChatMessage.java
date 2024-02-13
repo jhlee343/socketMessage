@@ -24,15 +24,16 @@ public class ChatMessage{
     @Enumerated(EnumType.STRING)
     private MessageType type; // 메시지 타입
     private LocalDateTime createTime; //생성 시간
-    private Long roomId;
+//    private Long roomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatRoomId")
     private ChatRoom chatRoom;
 
     @Builder
-    public ChatMessage(Long roomId, MessageType type, String sender, String message) {
-        this.roomId = roomId;
+    public ChatMessage(ChatRoom chatRoom, MessageType type, String sender, String message) {
+        this.chatRoom = chatRoom;
+//        this.roomId = roomId;
         this.type = type;
         this.sender = sender;
         this.message = message;

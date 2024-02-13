@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import shootingstar.socketmessage.Entity.QChatMessage;
 import shootingstar.socketmessage.Repository.DTO.FindAllChatMessageByRoomIdDTO;
 import shootingstar.socketmessage.Repository.DTO.QFindAllChatMessageByRoomIdDTO;
 

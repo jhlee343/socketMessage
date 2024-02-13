@@ -23,16 +23,15 @@ public class ChatRoom {
     private String name; //채팅방 이름
 
     @NotNull
-    private String ContainerId;
+    private String containerId;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.REMOVE)
     private List<ChatMessage> chatMessageList = new ArrayList<>();
 
     @Builder
-    public ChatRoom(String name, Long roomId, String ContainerId){
+    public ChatRoom(String name, String containerId){
         this.name = name;
-        this.roomId = roomId;
-        this.ContainerId = ContainerId;
+        this.containerId = containerId;
     }
 
     public void addChatMessage(ChatMessage message) {

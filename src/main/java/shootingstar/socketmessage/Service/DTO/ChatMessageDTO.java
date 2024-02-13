@@ -15,7 +15,7 @@ public class ChatMessageDTO {
     private String sender; // 메시지 보낸사람
 
     @NotNull
-    private String message; // 메시지
+    private String msg; // 메시지
 
     @NotNull
     private MessageType type; // 메시지 타입
@@ -25,12 +25,12 @@ public class ChatMessageDTO {
        //,QUIT
     }
 
-    private ChatRoomDTO chatRoomDTO;
-    public ChatMessageDTO(MessageType type, Long roomId, String sender, String message){
+//    private ChatRoomDTO chatRoomDTO;
+    public ChatMessageDTO(MessageType type, Long roomId, String sender, String msg){
         this.type = type;
         this.roomId = roomId;
         this.sender = sender;
-        this.message = message;
+        this.msg = msg;
 
     }
 }

@@ -46,22 +46,15 @@ public class ChatController {
      **/
     @PostMapping("chat/createRoom")
     public String createRoom(Model model, @RequestParam String name, String username) throws JsonProcessingException {
-        ChatRoomDTO room = chatService.createRoom(name);
+        ChatRoom room = chatService.createRoom(name);
         model.addAttribute("room",room);
         model.addAttribute("username",username);
-        saveRoom(room);
-        System.out.println("방 만듬");
         return "chatRoom";
     }
 
     /**
     채팅방 roomid, containerid, name 저장
      **/
-    @PostMapping("chat/saveRoom")
-    public ChatRoom saveRoom(@Validated @ModelAttribute ChatRoomDTO chatRoomDTO) throws JsonProcessingException {
-        System.out.println("saveRoom 실행");
-        return chatService.saveRoom(chatRoomDTO);
-    }
 
     /**
     채팅방 이동 & 불러오기
