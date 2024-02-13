@@ -29,11 +29,15 @@ import java.util.*;
     db에 채팅방 저장 -해결
     db에 메세지 저장 - 메세지값이  저장
                    - ChatMessage와 ChatRoom의 외래키 연동
+                   - 해결
+    채팅방 아이디에 맞는 채팅 내역 불러오기 findMessageByRoomId()
+                   - 두 디비 엮어서 조회
+                   - 해결
+    페이징
 해야할일
     채팅 리스트 없애고 방 하나만 만들기
-    채팅방 아이디에 맞는 채팅 내역 불러오기 findMessageByRoomId()
-       - 두 디비 엮어서 조회
-    페이징
+    채팅방, 채팅 내역 동시에 보이게
+
 
 
 추후 연결해야할 것

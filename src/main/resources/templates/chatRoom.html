@@ -8,6 +8,10 @@
 <input type="text" placeholder="보낼 메세지를 입력하세요." class="content">
 <button type="button" value="전송" class="sendBtn" onclick="sendMsg()">전송</button>
 <button type="button" value="방나가기" class="quit" onclick="quit()">방 나가기 </button>
+<!--방 나가기 - 채팅창 닫기-->
+<div>
+    <div class="pastmsgArea"></div>
+</div>
 <div>
     <div class="msgArea"></div>
 </div>
@@ -52,7 +56,6 @@
 
     //방 나가기 햇을때
     function quit(){
-        var quitMsg={"type" : "TALK","roomId":[[${room.roomId}]] ,"sender":" ","msg":"종료된 채팅방"};
         socket.close();
         location.href="/chat/chatList";
     }
