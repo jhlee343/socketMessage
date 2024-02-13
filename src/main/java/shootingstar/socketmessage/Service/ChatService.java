@@ -6,6 +6,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shootingstar.socketmessage.Entity.ChatMessage;
@@ -13,6 +15,7 @@ import shootingstar.socketmessage.Entity.ChatRoom;
 import shootingstar.socketmessage.Entity.MessageType;
 import shootingstar.socketmessage.Repository.ChatMessageRepository;
 import shootingstar.socketmessage.Repository.ChatRoomRepository;
+import shootingstar.socketmessage.Repository.DTO.FindAllChatMessageByRoomIdDTO;
 import shootingstar.socketmessage.Service.DTO.ChatMessageDTO;
 import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
 
@@ -62,7 +65,6 @@ public class ChatService {
     private final Long randomId = (long)(Math.random()*100)+1;
 
     public ChatRoomDTO findRoomById(Long roomId) {
-        //db로 구정 구현
         if(chatRoomsDTO.containsKey(roomId)){
             return chatRoomsDTO.get(roomId);
         }
@@ -80,9 +82,10 @@ public class ChatService {
         return chatRoomDTO;
     }
 
-//    public Page<FindAllChatMessageByRoomIdDTO> getMessagePage(Long roomId, Pageable pageable){
-//        return chatMessageRepository.findAllMessageById(roomId, pageable);
-//    }
+    public Page<FindAllChatMessageByRoomIdDTO> getAllMessagePage(Long roomId, Pageable pageable){
+        log.info(chatMessageRepository.findAllMessageById(roomId, pageable).toString());
+        return chatMessageRepository.findAllMessageById(roomId, pageable);
+    }
 
     @Transactional
     public ChatRoom createRoom(String name) {

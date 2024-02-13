@@ -2,10 +2,13 @@ package shootingstar.socketmessage.Controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.processing.Find;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,15 +17,18 @@ import org.springframework.web.bind.annotation.*;
 import shootingstar.socketmessage.Entity.ChatMessage;
 import shootingstar.socketmessage.Entity.ChatRoom;
 import shootingstar.socketmessage.Repository.ChatMessageRepository;
+import shootingstar.socketmessage.Repository.ChatMessageRepositoryCustom;
 import shootingstar.socketmessage.Repository.ChatRoomRepository;
 //import shootingstar.socketmessage.Repository.DTO.FindAllChatMessageByRoomIdDTO;
 import shootingstar.socketmessage.Repository.DTO.FindAllChatMessageByRoomIdDTO;
+import shootingstar.socketmessage.Service.DTO.ChatMessageDTO;
 import shootingstar.socketmessage.Service.DTO.ChatRoomDTO;
 import shootingstar.socketmessage.Service.ChatService;
 // import shootingstar.socketmessage.Repository.DTO.FindAllChatMessageByRoomIdDTO;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class ChatController {
@@ -52,27 +58,32 @@ public class ChatController {
         return "chatRoom";
     }
 
-    /**
-    채팅방 roomid, containerid, name 저장
-     **/
 
-    /**
-    채팅방 이동 & 불러오기
-     **/
-    @GetMapping("/chat/chatRoom")
-    public String chatRoom(Model model, @RequestParam Long roomId){
-        ChatRoomDTO room = chatService.findRoomById(roomId);
-        model.addAttribute("room",room);
-        return "chatRoom";
-    }
+    //채팅방 이동 & 불러오기
 
-    /**
-     * 채팅 내역 불러오기
-     */
 //    @GetMapping("/chat/chatRoom")
-//    public ResponseEntity<?> getMessageListPage(@RequestParam("roomId")Long roomId,
-//                                                @PageableDefault(size=10)Pageable pageable){
-//        Page<FindAllChatMessageByRoomIdDTO> messageLoad = chatService.getMessagePage(roomId,pageable);
-//        return ResponseEntity.ok().body(messageLoad);
+//    public String chatRoom(Model model, @RequestParam Long roomId,
+//                           @PageableDefault(size =10) Pageable pageable){
+//        ChatRoomDTO room = chatService.findRoomById(roomId);
+//        log.info(room.getRoomId().toString());
+//        model.addAttribute("room",room);
+//        return "chatRoom";
 //    }
+
+
+    @GetMapping("/chat/chatRoom")
+    public ResponseEntity<?> getAllLisgtPage(@RequestParam("roomId") Long roomId,
+                                             @PageableDefault(size =10) Pageable pageable){
+        log.info("API {}", "getAllLisgtPage");
+        Page<FindAllChatMessageByRoomIdDTO> findAllChatMessageByRoomIdDTOPage = chatService.getAllMessagePage(roomId, pageable);
+        log.info(findAllChatMessageByRoomIdDTOPage.toString());
+        return ResponseEntity.ok().body(findAllChatMessageByRoomIdDTOPage);
+    }
 }
+
+    /**
+     * 우선순위 정리
+     * 1. findAllbyRoomId(roomId) 해서 해당 내역 다 불러오기
+     * 2. 해당 내역을 페이징 처리
+     */
+

@@ -13,8 +13,8 @@ public class QFindAllChatMessageByRoomIdDTO extends ConstructorExpression<FindAl
 
     private static final long serialVersionUID = -1241079669L;
 
-    public QFindAllChatMessageByRoomIdDTO(com.querydsl.core.types.Expression<String> sender, com.querydsl.core.types.Expression<String> message, com.querydsl.core.types.Expression<java.time.LocalDateTime> createTime, com.querydsl.core.types.Expression<shootingstar.socketmessage.Entity.MessageType> type) {
-        super(FindAllChatMessageByRoomIdDTO.class, new Class<?>[]{String.class, String.class, java.time.LocalDateTime.class, shootingstar.socketmessage.Entity.MessageType.class}, sender, message, createTime, type);
+    public QFindAllChatMessageByRoomIdDTO(com.querydsl.core.types.Expression<Long> roomId, com.querydsl.core.types.Expression<String> sender, com.querydsl.core.types.Expression<String> message, com.querydsl.core.types.Expression<java.time.LocalDateTime> createTime, com.querydsl.core.types.Expression<shootingstar.socketmessage.Entity.MessageType> type) {
+        super(FindAllChatMessageByRoomIdDTO.class, new Class<?>[]{long.class, String.class, String.class, java.time.LocalDateTime.class, shootingstar.socketmessage.Entity.MessageType.class}, roomId, sender, message, createTime, type);
     }
 
 }

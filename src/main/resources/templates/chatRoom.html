@@ -45,7 +45,7 @@
     //메세지 보내기 버튼 눌렀을 떄..
     function sendMsg() {
         let content=document.querySelector('.content').value;
-        var talkMsg={"type" : "TALK","roomId":[[${room.roomId}]] ,"sender":"chatRoom.html에서 sender수정","msg":content};
+        var talkMsg={"type" : "TALK","roomId":[[${room.roomId}]] ,"sender":"sender","msg":content};
         //sender 수정
         socket.send(JSON.stringify(talkMsg));
     }
