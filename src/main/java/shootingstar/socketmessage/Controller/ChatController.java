@@ -42,34 +42,33 @@ public class ChatController {
     /**
     채팅방 생성
      **/
-    @PostMapping("chat/createRoom")
-    public String createRoom(Model model, @RequestParam String name, String username) throws JsonProcessingException {
-        ChatRoom room = chatService.createRoom(name);
-        model.addAttribute("room",room);
-        model.addAttribute("username",username);
-        return "chatRoom";
-    }
+//    @PostMapping("chat/createRoom")
+//    public String createRoom(Model model, @RequestParam String containerId, String username){
+//        ChatRoom room = chatService.createRoom(containerId);
+//        model.addAttribute("room",room);
+//        model.addAttribute("username",username);
+//        return "chatRoom";
+//    }
 
 
     //채팅방 이동 & 불러오기
 
-    @GetMapping("/chat/chatRoom")
-    public String chatRoom(Model model, @RequestParam Long roomId){
-        ChatRoomDTO room = chatService.findRoomById(roomId);
-        log.info(room.getRoomId().toString());
-        model.addAttribute("room",room);
-        return "chatRoom";
-    }
+//    @GetMapping("/chat/chatRoom")
+//    public String chatRoom(Model model, @RequestParam Long roomId){
+//        ChatRoomDTO room = chatService.findRoomById(roomId);
+//        log.info(room.getRoomId().toString());
+//        model.addAttribute("room",room);
+//        return "chatRoom";
+//    }
 
 
-    @GetMapping("/chat/chatRoom/{roomId}")
-    public ResponseEntity<?> getAllLisgtPage(@RequestParam("roomId") Long roomId,
-                                             @PageableDefault(size =10) Pageable pageable){
-
-        Page<FindAllChatMessageByRoomIdDTO> findAllChatMessageByRoomIdDTOPage = chatService.getAllMessagePage(roomId, pageable);
-        log.info(findAllChatMessageByRoomIdDTOPage.toString());
-        return ResponseEntity.ok().body(findAllChatMessageByRoomIdDTOPage);
-    }
+//    @GetMapping("/chat/chatRoom/{roomId}")
+//    public ResponseEntity<?> getAllLisgtPage(@RequestParam("roomId") Long roomId,
+//                                             @PageableDefault(size =10) Pageable pageable){
+//
+//        Page<FindAllChatMessageByRoomIdDTO> findAllChatMessageByRoomIdDTOPage = chatService.getAllMessagePage(roomId, pageable);
+//        log.info(findAllChatMessageByRoomIdDTOPage.toString());
+//        return ResponseEntity.ok().body(findAllChatMessageByRoomIdDTOPage);
+//    }
 }
-
 

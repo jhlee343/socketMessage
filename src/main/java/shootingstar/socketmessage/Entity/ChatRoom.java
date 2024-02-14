@@ -16,13 +16,11 @@ import java.util.List;
 @Entity
 public class ChatRoom {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomId; //채팅방 아이디
 
-    @NotNull
     private String name; //채팅방 이름
 
-    @NotNull
     private String containerId;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.REMOVE)

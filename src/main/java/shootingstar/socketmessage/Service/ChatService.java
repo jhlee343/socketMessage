@@ -66,7 +66,6 @@ public class ChatService {
     public List<ChatRoom> findAllRoom() {
         return chatRoomRepository.findAll();
     }
-    private final Long randomId = (long)(Math.random()*100)+1;
 
     public ChatRoomDTO findRoomById(Long roomId) {
         if(chatRoomsDTO.containsKey(roomId)){
@@ -92,10 +91,10 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatRoom createRoom(String name) {
+    public ChatRoom createRoom(String containerId) {
         ChatRoom chatRoom = ChatRoom.builder()
-                .name(name)
-                .containerId("d")
+                .name("전체 채팅방")
+                .containerId(containerId)
                 .build();
         chatRoomRepository.save(chatRoom);
 
@@ -104,7 +103,6 @@ public class ChatService {
 
     @Transactional
     public ChatMessage saveMessage(ChatMessageDTO chatMessageDTO, ChatRoomDTO roomDTO) throws JsonProcessingException{
-        //System.out.println(chatMessageDTO.getMessage());
         Optional<ChatRoom> optionalChatRoom = chatRoomRepository.findById(roomDTO.getRoomId());
         if(optionalChatRoom.isEmpty()){
             throw new RuntimeException();
