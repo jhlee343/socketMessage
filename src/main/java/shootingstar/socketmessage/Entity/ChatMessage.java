@@ -20,10 +20,10 @@ public class ChatMessage{
 
     private String sender; // 메시지 보낸사람
     private String message; // 메시지
+    private LocalDateTime createTime; //생성 시간
 
     @Enumerated(EnumType.STRING)
     private MessageType type; // 메시지 타입
-    private LocalDateTime createTime; //생성 시간
 //    private Long roomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
